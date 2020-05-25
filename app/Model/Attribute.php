@@ -1213,6 +1213,14 @@ class Attribute extends AppModel
                 }
                 break;
             case 'hostname':
+                $isDomain = preg_match("#^[A-Z0-9.\-_]+\.[A-Z0-9\-]{2,}[\.]?$#i", $value);
+                $isIP = filter_var($value[1], FILTER_VALIDATE_IP);
+
+                if($isDomain || $isIP){
+                    $returnValue = true;
+                } else {
+                    $returnValue = ucfirst($type) . __(' name has an invalid format. Please double check the value or select type "other".');
+                }
             case 'domain':
                 if (preg_match("#^[A-Z0-9.\-_]+\.[A-Z0-9\-]{2,}[\.]?$#i", $value)) {
                     $returnValue = true;
